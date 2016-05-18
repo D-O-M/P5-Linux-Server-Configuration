@@ -2,11 +2,13 @@
 
 
 ##Overview
+----
 
 This project takes a baseline installation of a Linux distribution on a virtual machine and prepares it to host a web application by installing updates, securing it from a number of attack vectors, and installing/configuring web and database servers.
 
 
 ##Viewing the App Live
+----
 
 The web application, [Treasure Trove](https://github.com/D-O-M/P3-Catalog-Web-App-With-OAuth2/tree/master/catalog), is hosted via HTTP at both: 
 
@@ -18,6 +20,7 @@ and
 
 
 ##Gaining Entry to the Server
+----
 
 To gain entry into the server, you can SSH into the server by executing the command:
 
@@ -29,9 +32,11 @@ Ensure the RSA file is in the right place, no password is required to login. The
 
 
 ##How it was set up
+----
 
 
 ###Launch your Virtual Machine with your Udacity account.
+====
 
 - Follow the instructions provided to SSH into your server
 
@@ -41,6 +46,7 @@ ssh -i ~/.ssh/udacity_key.rsa root@52.33.104.21
 
 
 ###Create a new user named grader
+====
 
 ####Create an SSH key in local terminal
 
@@ -58,7 +64,9 @@ adduser grader
 
   - Open file:
 
-```nano /home/grader/.ssh/authorized_keys```
+```
+nano /home/grader/.ssh/authorized_keys
+```
 
   - Paste in previously generated public SSH key
 
@@ -68,6 +76,7 @@ adduser grader
 
 
 ###Give the grader the permission to sudo
+====
 
 - Create file in `sudoers.d` directory:
 
@@ -96,6 +105,7 @@ grader    ALL=(ALL:ALL) PASSWD:ALL
 
 
 ###Update all currently installed packages
+====
 
 - Enter command to update list of available packages:
 
@@ -111,6 +121,7 @@ apt-get upgrade
 
 
 ###Change the SSH port from 22 to 2200
+====
 
 - Edit `sshd_config` file:
 
@@ -137,6 +148,7 @@ Port 2200
 
 
 ###Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
+====
 
 - Deny all incoming connections/requests:
 
@@ -176,6 +188,7 @@ ufw enable
 
 
 ###Configure the local timezone to UTC
+====
 
 ```
 timedatectl set-timezone UTC
@@ -183,6 +196,7 @@ timedatectl set-timezone UTC
 
 
 ###Install and configure Apache to serve a Python mod_wsgi application
+====
 
 ```
 apt-get install apache2
@@ -190,6 +204,7 @@ apt-get install apache2
 
 
 ###Install and configure PostgreSQL:
+====
 
 ####Install postgresql package:
 
@@ -349,22 +364,23 @@ application.secret_key = '123456789'
 
 - Edit the `database_setup.py` and `__init__.py` file to use the postgresql database instead of the sqlite database originally used:
 
-  Change:
+Change:
 
 ```
 engine = create_engine('sqlite:///catalog.db')
 ```
 
-  to:
+to:
 
 ```
 engine = create_engine('postgresql://catalog:password@localhost:5432/catalog')
 ```
 
-  in both files.
+in both files.
 
 
 ##Resources Used
+----
 
 
 - [Stack Overflow](http://www.stackoverflow.com)
