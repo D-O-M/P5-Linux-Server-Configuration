@@ -58,19 +58,17 @@ adduser grader
 
 1. Open file:
 
-```
-nano /home/grader/.ssh/authorized_keys
-```
+   ```nano /home/grader/.ssh/authorized_keys```
 
 2. Paste in previously generated public SSH key
 
 3. Exit and save:
 
-<kbd>CTRL</kbd><kbd>X</kbd>
+   <kbd>CTRL</kbd><kbd>X</kbd>
 
-followed by:
+   followed by:
 
-<kbd>Y</kbd> and press <kbd>ENTER</kbd>
+   <kbd>Y</kbd> and press <kbd>ENTER</kbd>
 
 
 ###Give the grader the permission to sudo
