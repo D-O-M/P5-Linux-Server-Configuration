@@ -1,14 +1,19 @@
 # Linux Server Configuration
+------
+
 
 
 ##Overview
-----
+------
+
 
 This project takes a baseline installation of a Linux distribution on a virtual machine and prepares it to host a web application by installing updates, securing it from a number of attack vectors, and installing/configuring web and database servers.
 
 
+
 ##Viewing the App Live
-----
+------
+
 
 The web application, [Treasure Trove](https://github.com/D-O-M/P3-Catalog-Web-App-With-OAuth2/tree/master/catalog), is hosted via HTTP at both: 
 
@@ -19,8 +24,10 @@ and
 - [52.33.104.21](http://52.33.104.21)
 
 
+
 ##Gaining Entry to the Server
-----
+------
+
 
 To gain entry into the server, you can SSH into the server by executing the command:
 
@@ -31,12 +38,13 @@ ssh -i path/to/RSA_key_file -p 2200 grader@52.33.104.21
 Ensure the RSA file is in the right place, no password is required to login. The password for sudo commands is supplied in the Notes with my submission.
 
 
+
 ##How it was set up
-----
+------
 
 
 ###Launch your Virtual Machine with your Udacity account.
-====
+
 
 - Follow the instructions provided to SSH into your server
 
@@ -45,22 +53,23 @@ ssh -i ~/.ssh/udacity_key.rsa root@52.33.104.21
 ```
 
 
-###Create a new user named grader
-====
 
-####Create an SSH key in local terminal
+###Create a new user named grader
+
+
+#####Create an SSH key in local terminal
 
 ```
 ssh-keygen
 ```
 
-####Create user in remote terminal
+#####Create user in remote terminal
 
 ```
 adduser grader
 ```
 
-####Setup SSH key for login
+#####Setup SSH key for login
 
   - Open file:
 
@@ -75,8 +84,9 @@ nano /home/grader/.ssh/authorized_keys
     <kbd>CTRL</kbd><kbd>X</kbd> followed by <kbd>Y</kbd> and press <kbd>ENTER</kbd>
 
 
+
 ###Give the grader the permission to sudo
-====
+
 
 - Create file in `sudoers.d` directory:
 
@@ -104,8 +114,9 @@ grader    ALL=(ALL:ALL) PASSWD:ALL
     <kbd>CTRL</kbd><kbd>X</kbd> followed by <kbd>Y</kbd> and press <kbd>ENTER</kbd>
 
 
+
 ###Update all currently installed packages
-====
+
 
 - Enter command to update list of available packages:
 
@@ -121,7 +132,7 @@ apt-get upgrade
 
 
 ###Change the SSH port from 22 to 2200
-====
+
 
 - Edit `sshd_config` file:
 
@@ -135,7 +146,7 @@ nano /etc/ssh/sshd_config
 # What ports, IPs and protocols we listen for
 Port 22
 ```
-  to
+to
 
 ```
 # What ports, IPs and protocols we listen for
@@ -147,8 +158,9 @@ Port 2200
     <kbd>CTRL</kbd><kbd>X</kbd> followed by <kbd>Y</kbd> and press <kbd>ENTER</kbd>
 
 
+
 ###Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
-====
+
 
 - Deny all incoming connections/requests:
 
@@ -187,36 +199,42 @@ ufw enable
 ```
 
 
+
 ###Configure the local timezone to UTC
-====
+
 
 ```
 timedatectl set-timezone UTC
 ```
 
 
+
 ###Install and configure Apache to serve a Python mod_wsgi application
-====
+
 
 ```
 apt-get install apache2
 ```
 
 
-###Install and configure PostgreSQL:
-====
 
-####Install postgresql package:
+###Install and configure PostgreSQL:
+
+
+
+#####Install postgresql package:
 
 ```
 apt-get install postgresql
 ```
 
-####Do not allow remote connections
+
+#####Do not allow remote connections
 
 Ensure port 5432 is closed as we did earlier.
 
-####Create a new user named catalog that has limited permissions to your catalog application database
+
+#####Create a new user named catalog that has limited permissions to your catalog application database
 
 - Switch to postgresql user:
 
@@ -236,7 +254,8 @@ createuser catalog -d -P
 createdb catalog
 ```
 
-####Install git, clone and setup your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser
+
+#####Install git, clone and setup your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser
 
 - Install Git package:
 
@@ -379,8 +398,9 @@ engine = create_engine('postgresql://catalog:password@localhost:5432/catalog')
 in both files.
 
 
+
 ##Resources Used
-----
+------
 
 
 - [Stack Overflow](http://www.stackoverflow.com)
