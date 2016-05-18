@@ -408,6 +408,19 @@ service apache2 restart
 `reboot`
 
 
+##Software Installed
+------
+
+- Postgresql
+- mod_wsgi
+- apache2
+- pip
+- git
+- finger
+- App Dependencies via pip
+
+
+
 ##Resources Used
 ------
 
