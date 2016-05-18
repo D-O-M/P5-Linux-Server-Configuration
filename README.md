@@ -397,6 +397,15 @@ engine = create_engine('postgresql://catalog:password@localhost:5432/catalog')
 
 in both files.
 
+- Restart the apache server for changes to be applied:
+
+```
+service apache2 restart
+```
+
+- Reboot the entire VM to ensure all configuration changes are in effect:
+
+`reboot`
 
 
 ##Resources Used
