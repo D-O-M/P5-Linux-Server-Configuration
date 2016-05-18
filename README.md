@@ -42,50 +42,46 @@ ssh -i ~/.ssh/udacity_key.rsa root@52.33.104.21
 
 ###Create a new user named grader
 
-- Create an SSH key in local terminal
+####Create an SSH key in local terminal
 
 ```
 ssh-keygen
 ```
 
-- Create user in remote terminal
+####Create user in remote terminal
 
 ```
 adduser grader
 ```
 
-- Setup SSH key for login
+####Setup SSH key for login
 
-1. Open file:
+  - Open file:
 
-   ```nano /home/grader/.ssh/authorized_keys```
+```nano /home/grader/.ssh/authorized_keys```
 
-2. Paste in previously generated public SSH key
+  - Paste in previously generated public SSH key
 
-3. Exit and save:
+  - Exit and save:
 
-   <kbd>CTRL</kbd><kbd>X</kbd>
-
-   followed by:
-
-   <kbd>Y</kbd> and press <kbd>ENTER</kbd>
+    <kbd>CTRL</kbd><kbd>X</kbd> followed by <kbd>Y</kbd> and press <kbd>ENTER</kbd>
 
 
 ###Give the grader the permission to sudo
 
-1. Create file in `sudoers.d` directory:
+- Create file in `sudoers.d` directory:
 
 ```
 touch /etc/sudoers.d/grader
 ```
 
-2. Edit newly created file:
+- Edit newly created file:
 
 ```
 nano /etc/sudoers.d/grader
 ```
 
-3. Add lines:
+- Add lines:
 
 ```
 grader    ALL=(ALL:ALL) PASSWD:ALL
@@ -93,81 +89,90 @@ grader    ALL=(ALL:ALL) PASSWD:ALL
 
 (`PASSWD:ALL` requires a password when `sudo` command is used)
 
-4. Exit and save:
 
-<kbd>CTRL</kbd><kbd>X</kbd>
+- Exit and save:
 
-followed by:
-
-<kbd>Y</kbd> and press <kbd>ENTER</kbd>
+    <kbd>CTRL</kbd><kbd>X</kbd> followed by <kbd>Y</kbd> and press <kbd>ENTER</kbd>
 
 
 ###Update all currently installed packages
 
-1. Enter command to update list of available packages:
+- Enter command to update list of available packages:
 
-`apt-get update`
+```
+apt-get update
+```
 
-2. Enter command to upgrade installed packages:
+- Enter command to upgrade installed packages:
 
-`apt-get upgrade`
+```
+apt-get upgrade
+```
 
 
 ###Change the SSH port from 22 to 2200
 
-1. Edit `sshd_config` file:
+- Edit `sshd_config` file:
 
 ```
 nano /etc/ssh/sshd_config
 ```
 
-2. Change 5th line from:
+- Change 5th line from:
 
 ```
 # What ports, IPs and protocols we listen for
 Port 22
 ```
-to
+  to
 
 ```
 # What ports, IPs and protocols we listen for
 Port 2200
 ```
 
-3. Exit and save:
+- Exit and save:
 
-<kbd>CTRL</kbd><kbd>X</kbd>
-
-followed by:
-
-<kbd>Y</kbd> and press <kbd>ENTER</kbd>
+    <kbd>CTRL</kbd><kbd>X</kbd> followed by <kbd>Y</kbd> and press <kbd>ENTER</kbd>
 
 
 ###Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
 
-1. Deny all incoming connections/requests:
+- Deny all incoming connections/requests:
 
-`ufw default deny incoming`
+```
+ufw default deny incoming
+```
 
-2. Allow all outgoing connections/requests:
+- Allow all outgoing connections/requests:
 
-`ufw default allow outgoing`
+```
+ufw default allow outgoing
+```
 
-3. Allow incoming SSH connections on port 2200:
+- Allow incoming SSH connections on port 2200:
 
-`ufw allow 2200`
+```
+ufw allow 2200
+```
 
-4. Allow incoming HTTP requests:
+- Allow incoming HTTP requests:
 
-`ufw allow www`
+```
+ufw allow www
+```
 
-5. Allow incoming NTP connections/requests:
+- Allow incoming NTP connections/requests:
 
-`ufw allow ntp`
+```
+ufw allow ntp
+```
 
-6. Enable the uncomplicated firewall:
+- Enable the uncomplicated firewall:
 
-`ufw enable`
+```
+ufw enable
+```
 
 
 ###Configure the local timezone to UTC
@@ -186,105 +191,105 @@ apt-get install apache2
 
 ###Install and configure PostgreSQL:
 
-- Install postgresql package:
+####Install postgresql package:
 
 ```
 apt-get install postgresql
 ```
 
-- Do not allow remote connections
+####Do not allow remote connections
 
 Ensure port 5432 is closed as we did earlier.
 
-- Create a new user named catalog that has limited permissions to your catalog application database
+####Create a new user named catalog that has limited permissions to your catalog application database
 
-1. Switch to postgresql user:
+- Switch to postgresql user:
 
 ```
 su - postgres
 ```
 
-2. Create user named catalog with password:
+- Create user named catalog with password:
 
 ```
 createuser catalog -d -P
 ```
 
-3. Create database named catalog:
+- Create database named catalog:
 
 ```
 createdb catalog
 ```
 
-- Install git, clone and setup your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser
+####Install git, clone and setup your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser
 
-1. Install Git package:
+- Install Git package:
 
 ```
 apt-get install git
 ```
 
-2. Clone catalog app repository from project 3:
+- Clone catalog app repository from project 3:
 
 ```
 git clone https://github.com/D-O-M/Udacity-Fullstack/tree/master/vagrant/catalog /var/www/CatalogApp
 ```
 
-3. Install libraries for setting up the app:
+- Install libraries for setting up the app:
 
 ```
 apt-get install libapache2-mod-wsgi python-dev
 ```
 
-4. Enable mod_wsgi:
+- Enable mod_wsgi:
 
 ```
 a2enmod wsgi
 ```
 
-5. Install python-pip:
+- Install python-pip:
 
 ```
 apt-get install python-pip
 ```
 
-6. Use pip to install virtual environment:
+- Use pip to install virtual environment:
 
 ```
 pip install virtualenv
 ```
 
-7. Create a virtual environment to serve the app:
+- Create a virtual environment to serve the app:
 
 ```
 virtualenv /var/www/CatalogApp/catalog/CatalogEnv
 ```
 
-8. Enter the virtual environment:
+- Enter the virtual environment:
 
 ```
 source /var/www/CatalogApp/catalog/CatalogEnv/bin/activate
 ```
 
-9. Install Flask inside the virtual environment:
+- Install Flask inside the virtual environment:
 
 ```
 pip install Flask
 ```
 
-10. Exit/deactivate the virtual environment:
+- Exit/deactivate the virtual environment:
 
 ```
 deactivate
 ```
 
-11. Create and edit a config file for the app:
+- Create and edit a config file for the app:
 
 ```
 nano /etc/apache2/sites-available/CatalogApp.conf
 ```
 
-12. Add the following to the newly created file:
+- Add the following to the newly created file:
 
 ```
 <VirtualHost *:80>
@@ -313,27 +318,23 @@ nano /etc/apache2/sites-available/CatalogApp.conf
 
 ```
 
-13. Exit and save:
+- Exit and save:
 
-<kbd>CTRL</kbd><kbd>X</kbd>
+    <kbd>CTRL</kbd><kbd>X</kbd> followed by <kbd>Y</kbd> and press <kbd>ENTER</kbd>
 
-followed by:
-
-<kbd>Y</kbd> and press <kbd>ENTER</kbd>
-
-14. Enable the virtual host:
+- Enable the virtual host:
 
 ```
 a2ensite CatalogApp
 ```
 
-15. Create and edit the `.wsgi` file:
+- Create and edit the `.wsgi` file:
 
 ```
 nano /var/www/CatalogApp/CatalogApp.wsgi
 ```
 
-16. Add the following to the newly created file:
+- Add the following to the newly created file:
 
 ```
 #!/usr/bin/python
@@ -346,21 +347,21 @@ from CatalogApp import app as application
 application.secret_key = '123456789'
 ```
 
-17. Edit the `database_setup.py` and `__init__.py` file to use the postgresql database instead of the sqlite database originally used:
+- Edit the `database_setup.py` and `__init__.py` file to use the postgresql database instead of the sqlite database originally used:
 
-Change:
+  Change:
 
 ```
 engine = create_engine('sqlite:///catalog.db')
 ```
 
-to:
+  to:
 
 ```
 engine = create_engine('postgresql://catalog:password@localhost:5432/catalog')
 ```
 
-in both files.
+  in both files.
 
 
 ##Resources Used
